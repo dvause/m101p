@@ -1,0 +1,41 @@
+Week 3 - Schema Design
+
+*** Match the data access pattern of the application
+
+* Rich documents
+* Pre join/embed data
+* No mongo joins
+* No constraints
+* Atomic operations
+* No declared schema
+
+One to many / many to many
+=====================
+* Use separate collections if many is large
+* Embed if many is few
+
+Multikey indexes
+=====================
+* Indexing an array so mongo indexes the values of an array
+* Allows you to query against the array index
+
+Benefits of embedding
+=====================
+* Improved read performance
+* One round trip to the db
+
+Trees
+=====================
+* List ancestors in an array of the document
+
+When to denormalize
+======================
+1:1 		Embed
+1:many		Embed from the many to the one
+many:many	Link (arrays of object ids)
+
+Storing large files (Grid FS)
+======================
+* Breaks up a large file into chunks
+** stores the chunks in a collection
+** stores meta data about the chunks in anohter collection
