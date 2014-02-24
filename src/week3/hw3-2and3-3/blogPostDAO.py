@@ -54,7 +54,7 @@ class BlogPostDAO:
 
         # now insert the post
         try:
-            # XXX HW 3.2 Work Here to insert the post
+            self.posts.insert(post)
             print "Inserting the post"
         except:
             print "Error inserting post"
@@ -67,7 +67,9 @@ class BlogPostDAO:
 
         #cursor = []         # Placeholder so blog compiles before you make your changes
 
-        cursor = self.posts.find()
+        cursor = self.posts.find({})
+        cursor = cursor.limit(10)
+        cursor = cursor.sort('date',-1)
 
         l = []
 
@@ -90,8 +92,7 @@ class BlogPostDAO:
     # find a post corresponding to a particular permalink
     def get_post_by_permalink(self, permalink):
 
-        post = None
-        # XXX Work here to retrieve the specified post
+        post = self.posts.find_one({'permalink':permalink})
 
         if post is not None:
             # fix up date
@@ -111,6 +112,7 @@ class BlogPostDAO:
             last_error = {'n':-1}           # this is here so the code runs before you fix the next line
             # XXX HW 3.3 Work here to add the comment to the designated post
 
+            self.posts.update({'permalink': permalink}, { '$addToSet': {'comments': comment}})
 
             return last_error['n']          # return the number of documents updated
 
